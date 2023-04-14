@@ -16,7 +16,9 @@ def create(request):
     if request.method == 'POST':
         form = MovieForm(request.POST)
         if form.is_valid():
-            movie = form.save()
+            movie = form.save(commit=False)
+            movie.user = request.user
+            movie.save()
             return redirect('movies:detail', movie.pk)
     else:
         form = MovieForm()
@@ -29,7 +31,7 @@ def create(request):
 def detail(request, pk):
     movie = Movie.objects.get(pk=pk)
     comment_form = CommentForm()
-    comments = Movie.comment_set.all()
+    comments = Comment.objects.all()
     context = {
         'movie': movie,
         'comment_form': comment_form,
