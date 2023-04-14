@@ -86,7 +86,7 @@ def comments_delete(request, movie_pk, comment_pk):
 
 @require_POST
 def likes(request, movie_pk):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         movie = Movie.objects.get(pk=movie_pk)
         if movie.like_users.filter(pk=request.user.pk).exists():
             movie.like_users.remove(request.user)
